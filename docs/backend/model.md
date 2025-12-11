@@ -1,7 +1,7 @@
 # Modèle de données
 
-```mermaid
-classDiagram
+```plantuml
+@startuml
     class User {
         id: UUID
         email: str
@@ -63,6 +63,7 @@ classDiagram
     Commentaire "1" -- "0..n" Commentaire : réponses
 
     User "1" --> "0..n" Publication : surveille
+@enduml
 ```
 
 `User` : Utilisateur de la plate-forme _Balance tes haters_. 
