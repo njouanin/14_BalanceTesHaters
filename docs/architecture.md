@@ -1,19 +1,20 @@
 ```mermaid
 C4Context
     Person(Influenceuse , "Influenceuse")    
+    Container(web_extension, "Extension navigateur")
+    System_Ext(ReseauSocial, "Réseau social", "Instagram, Youtube")
     System_Boundary(c1, "Balance Tes Haters") {
         Container(frontend, "Application Web", "NextJS")
         Container(backend, "API Backend", "Python, FastAPI")
         Container(llm, "LLM ?")
         ContainerDb(db, "Base de données", "PostgreSQL")
     }
-        Container(frontend_client, "Client Web", "Chrome, Firefox")
-    System_Ext(ReseauSocial, "Réseau social", "Instagram, Youtube")
-    Rel(Influenceuse, frontend_client, "Utilise", "HTTPS")
-    Rel(frontend_client, frontend, "Utilise", "HTTPS, WebSocket")
+    Rel(Influenceuse, frontend, "Utilise", "HTTPS")
+    Rel(Influenceuse, web_extension, "déclenche")
     Rel(frontend, backend, "Utilise", "HTTPS")
+    Rel(web_extension, backend, "Utilise", "HTTPS")
     Rel(backend, db, "Lectures / écritures", "SQL")
-    Rel(frontend_client, ReseauSocial, "Scraping / API", "HTTPS")
+    Rel(web_extension, ReseauSocial, "Scraping / API", "HTTPS")
     Rel(backend, llm, "Utilise", "prompt")
 ```
 
