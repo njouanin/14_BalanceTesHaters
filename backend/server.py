@@ -2,7 +2,7 @@ import logging
 
 from balanceteshaters.infra.container import Container
 from balanceteshaters.infra.errors import register_exception_handlers
-from balanceteshaters.routers import auth_router
+from balanceteshaters.routers import auth_router, ml_router
 from fastapi import FastAPI
 
 container = Container()
@@ -16,4 +16,5 @@ app = FastAPI()
 
 app.container = container
 app.include_router(auth_router.router, prefix="/auth")
+app.include_router(ml_router.router, prefix="/ml")
 register_exception_handlers(app, logger)
