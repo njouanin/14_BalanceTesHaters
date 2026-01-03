@@ -2,67 +2,51 @@
 
 ```mermaid
 classDiagram
-    class User {
-        id: UUID
-        email: str
-        login: str
-        password_hash: str
-        display_name: str
-        enabled: bool
-        created_at: datetime
-        updated_at: datetime
-    }
-
-    class AuthToken {
-        jwt_token: str
-        expires_at: datetime
-        created_at: datetime
-    }
-    User "1" -- "0..n" AuthToken
-
     class Auteur {
         stat_nb_publications
         stat_nb_commentaires
     }
 
     class Identite {
-        nom_profil
-        url_profil
+        id: UUID
+        pseudo: str
+        url: str
     }
     Identite "0..n" -- "1" ReseauSocial
-    Identite "1..n" --* "1" Auteur
+    Auteur "1" *-- "1..n" Identite : possède
 
     class ReseauSocial {
-        <<Enumeration>>
+        <<enumeration>>
         YOUTUBE
         INSTAGRAM
         TIKTOK
         ...
     }
     class Publication {
-        texte
-        horodatage_publication
-        url
-        horodatage_scraping
+        id: UUID
+        url: str
+        date_publication: datetime
+        horodatage_capture: datetime
+        texte_publication: str
     }
-    Auteur "0..1" --> "0..n" Publication : est l'auteur de
+    Identite "1" --> "0..n" Publication : est l'auteur de
     Publication "0..n" --> "1" ReseauSocial : publiée sur
 
     class Commentaire {
-        texte
-        horodatage_commentaire
-        url
-        categorie
-        scoring
-        url_screenshot
-        horodatage_scraping
+        id: UUID
+        texte_commentaire: str
+        date_commentaire: str | datetime
+        date_relative: bool
+        screenshot: str
+        horodatage_screenshot: datetime
+        classification: list[str]
+        horodatage_classification: datetime
     }
 
     Publication "1" *-- "0..n" Commentaire
-    Auteur "1" --> "0..n" Commentaire : est l'auteur de
+    Identite "1" --> "0..n" Commentaire : est l'auteur de
     Commentaire "1" -- "0..n" Commentaire : réponses
 
-    User "1" --> "0..n" Publication : surveille
 ```
 
 `User` : Utilisateur de la plate-forme _Balance tes haters_. 
